@@ -13,6 +13,7 @@ import json
 from dateutil.parser import parse
 
 MAX_TWEETS_PER_REQUEST = 100
+YEAR_MAX = 2020  # I want to delete all the tweets before 2020
 
 
 class Credentials:
@@ -26,7 +27,6 @@ def read_tweets_json():
     """Read json that contains all the information from all the tweets I have written."""
 
     tweets_id = []
-    year_limit = 2020  # I want to delete all the tweets before 2020
     try:
         with open("..\\twitter-2020-12-14-data\\data\\tweet.js", 'r', encoding="utf-8") as f:
             tweets_str = "".join(f.readlines())
@@ -36,7 +36,7 @@ def read_tweets_json():
 
         for tweet in json_tweets:
             tweet_date = parse(tweet['tweet']['created_at'])
-            if tweet_date.year >= year_limit:
+            if tweet_date.year >= YEAR_MAX:
                 continue
             tweets_id.append(tweet['tweet']['id'])
 
@@ -78,6 +78,7 @@ def oauth_login():
 
 
 def batch_delete(api):
+    """ We delete all tweets before YEAR_MAX """
     id_ = read_tweets_json()
     with open("tweetsText.txt", "wb") as textTweetFile:
         for i in range(0, len(id_), MAX_TWEETS_PER_REQUEST):
