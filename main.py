@@ -93,8 +93,9 @@ def batch_delete(api):
                     line = line.encode('utf-8')
                     textTweetFile.write(line)
                 except Exception as errDelete:
-                    print("Error", errDelete, "\nFailed to delete:", status.id)
-                    break
+                    line = "Error " + str(errDelete) + "\nFailed to delete: " + str(status.id)
+                    line = line.encode('utf-8')
+                    textTweetFile.write(line)
 
 
 if __name__ == "__main__":
